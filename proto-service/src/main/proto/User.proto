@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "Common.proto";
+
+option java_multiple_files = true;
+option java_package = "com.robsil.proto";
+option java_outer_classname = "UserProto";
+
+service UserService {
+  rpc findById(Id) returns (User);
+  rpc findByEmail(Str) returns (User);
+}
+
+message User {
+  int64 id = 1;
+//  google.protobuf.Timestamp createdDate = 2;
+//  google.protobuf.Timestamp lastModifiedDate = 3;
+
+  string firstName = 5;
+  string lastName = 6;
+//  google.protobuf.Timestamp dateOfBirth = 7;
+  Gender gender = 8;
+  string email = 9;
+  bool emailConfirmed = 10;
+  string password = 11;
+  bool isEnabled = 12;
+  repeated ERole roles = 13 [packed = true];
+
+}
+
+enum Gender {
+  MALE = 0;
+  FEMALE = 1;
+}
+
+enum ERole {
+  USER = 0;
+  ADMIN = 1;
+  SUPERADMIN = 2;
+}

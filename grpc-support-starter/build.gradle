@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+    id "org.springframework.boot" version "3.0.4"
+    id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group 'com.erommerce'
+version '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('springCloudVersion', "2022.0.1")
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+dependencies {
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
+}
+
+test {
+    useJUnitPlatform()
+}

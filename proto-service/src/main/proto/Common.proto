@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.robsil.proto";
+option java_outer_classname = "CommonProto";
+
+message Id {
+  int64 id = 1;
+}
+
+message Str {
+  string text = 1;
+}
+
+// https://stackoverflow.com/a/63825487
+message BigDecimal {
+  uint32 scale = 1;
+  uint32 precision = 2;
+//  actually: bigDecimal's unscaled value
+  bytes value = 3;
+}

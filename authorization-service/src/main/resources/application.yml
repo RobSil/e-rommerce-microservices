@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5001/postgres
+    username: postgres
+    password: root
+
+  application:
+    name: authorization-service
+
+server:
+  port: 9000
+
+logging:
+  level:
+    org:
+      springframework:
+        security: trace

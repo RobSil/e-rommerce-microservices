@@ -1,0 +1,72 @@
+version: '3.3'
+
+services:
+
+  user-service-postgres:
+    image: postgres:12.12
+    restart: unless-stopped
+    ports:
+      - "5001:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    volumes:
+      - "./postgres/data:/var/lib/postgresql/data"
+      - "./init-postgres.sql:/docker-entrypoint-initdb.d/init-postgres.sql"
+    logging:
+      driver: "json-file"
+      options:
+        tag: "{{.ImageName}}|{{.Name}}"
+        max-size: 256m
+
+  cart-service-postgres:
+    image: postgres:12.12
+    restart: unless-stopped
+    ports:
+      - "5002:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    volumes:
+      - "./postgres/data:/var/lib/postgresql/data"
+      - "./init-postgres.sql:/docker-entrypoint-initdb.d/init-postgres.sql"
+    logging:
+      driver: "json-file"
+      options:
+        tag: "{{.ImageName}}|{{.Name}}"
+        max-size: 256m
+
+  order-service-postgres:
+    image: postgres:12.12
+    restart: unless-stopped
+    ports:
+      - "5003:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    volumes:
+      - "./postgres/data:/var/lib/postgresql/data"
+      - "./init-postgres.sql:/docker-entrypoint-initdb.d/init-postgres.sql"
+    logging:
+      driver: "json-file"
+      options:
+        tag: "{{.ImageName}}|{{.Name}}"
+        max-size: 256m
+
+  product-service-postgres:
+    image: postgres:12.12
+    restart: unless-stopped
+    ports:
+      - "5004:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    volumes:
+      - "./postgres/data:/var/lib/postgresql/data"
+      - "./init-postgres.sql:/docker-entrypoint-initdb.d/init-postgres.sql"
+    logging:
+      driver: "json-file"
+      options:
+        tag: "{{.ImageName}}|{{.Name}}"
+        max-size: 256m
+

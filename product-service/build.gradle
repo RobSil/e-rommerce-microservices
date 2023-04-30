@@ -1,0 +1,60 @@
+plugins {
+    id 'java'
+    id "org.springframework.boot" version "3.0.4"
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'org.graalvm.buildtools.native' version '0.9.20'
+}
+
+group = 'com.robsil.erommerce'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('springCloudVersion', "2022.0.1")
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+
+dependencies {
+    compileOnly "org.projectlombok:lombok"
+    annotationProcessor "org.projectlombok:lombok"
+
+    implementation "net.devh:grpc-server-spring-boot-starter:2.14.0.RELEASE"
+    implementation "net.devh:grpc-client-spring-boot-starter:2.14.0.RELEASE"
+
+
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    developmentOnly "org.springframework.boot:spring-boot-devtools"
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
+    implementation "org.springframework.boot:spring-boot-starter-actuator"
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    implementation 'io.hypersistence:hypersistence-utils-hibernate-60:3.1.2'
+
+    implementation 'org.flywaydb:flyway-core'
+    runtimeOnly 'org.postgresql:postgresql'
+
+    implementation project(":proto-service")
+    implementation project(":base-entity-starter")
+    implementation project(":grpc-support-starter")
+    implementation project(":exception-starter")
+}
+
+test {
+    useJUnitPlatform()
+}

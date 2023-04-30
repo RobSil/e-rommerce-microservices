@@ -1,0 +1,51 @@
+server:
+  port: 8084
+  http2:
+    enabled: true
+
+spring:
+
+  cache:
+    type: redis
+
+
+  data:
+    redis:
+      host: localhost
+
+  application:
+    name: gateway-service
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/v1/users/**
+        - id: cart-service
+          uri: lb://cart-service
+          predicates:
+            - Path=/api/v1/carts/**
+            - Path="/api/v1/cartItems/**
+
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/api/v1/orders/**
+            - Path=/api/v1/orderItems/**
+
+        - id: product-service
+          uri: lb://product-service
+          predicates:
+            - Path=/api/v1/products/**
+            - Path="/api/v1/categories/**
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
