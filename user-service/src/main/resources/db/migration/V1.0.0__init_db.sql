@@ -1,5 +1,5 @@
 
-create table users
+create table if not exists users
 (
     id bigserial primary key,
     created_date timestamp with time zone,
@@ -17,4 +17,4 @@ create table users
     roles jsonb
 );
 
-create unique index users_email_idx on users(email);
+create unique index if not exists users_email_idx on users(email);

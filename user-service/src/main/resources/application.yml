@@ -31,3 +31,9 @@ eureka:
 grpc:
   server:
     port: 7001
+
+logging:
+  level:
+    org:
+      springframework:
+        security: trace

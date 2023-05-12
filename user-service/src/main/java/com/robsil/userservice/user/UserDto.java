@@ -1,6 +1,8 @@
 package com.robsil.userservice.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.robsil.erommerce.userentityservice.data.domain.ERole;
+import com.robsil.erommerce.userentityservice.data.domain.Gender;
 import lombok.*;
 
 import java.time.LocalDateTime;

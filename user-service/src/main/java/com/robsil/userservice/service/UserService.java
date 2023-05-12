@@ -1,7 +1,7 @@
 package com.robsil.userservice.service;
 
 
-import com.robsil.userservice.data.domain.User;
+import com.robsil.erommerce.userentityservice.data.domain.User;
 import com.robsil.userservice.user.UserRegistrationRequest;
 
 import java.security.Principal;
@@ -16,4 +16,5 @@ public interface UserService {
     User saveEntity(User user);
     void register(UserRegistrationRequest dto);
     boolean existsByEmail(String email);
+    long countAll();
 }

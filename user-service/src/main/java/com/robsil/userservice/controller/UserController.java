@@ -1,6 +1,6 @@
 package com.robsil.userservice.controller;
 
-import com.robsil.userservice.data.domain.User;
+import com.robsil.erommerce.userentityservice.data.domain.User;
 import com.robsil.userservice.user.UserRegistrationRequest;
 import com.robsil.userservice.service.UserService;
 import jakarta.validation.Valid;

@@ -1,6 +1,7 @@
 package com.robsil.userservice.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.robsil.erommerce.userentityservice.data.domain.Gender;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

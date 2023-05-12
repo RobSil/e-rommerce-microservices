@@ -1,13 +1,13 @@
 package com.robsil.userservice.service.impl;
 
 
-import com.robsil.userservice.data.domain.User;
+import com.robsil.erommerce.userentityservice.data.domain.ERole;
+import com.robsil.erommerce.userentityservice.data.domain.User;
 import com.robsil.userservice.data.repository.UserRepository;
 import com.robsil.model.exception.grpc.GrpcNotFoundException;
 import com.robsil.model.exception.http.EntityNotFoundException;
 import com.robsil.model.exception.http.HttpConflictException;
 import com.robsil.model.exception.http.UnauthorizedException;
-import com.robsil.userservice.user.ERole;
 import com.robsil.userservice.user.UserRegistrationRequest;
 import com.robsil.proto.Id;
 import com.robsil.proto.Str;
@@ -106,11 +106,16 @@ public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase impleme
 
         user.getRoles().add(ERole.USER);
 
-        user = saveEntity(user);
+        saveEntity(user);
     }
 
     @Override
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public long countAll() {
+        return userRepository.count();
     }
 }

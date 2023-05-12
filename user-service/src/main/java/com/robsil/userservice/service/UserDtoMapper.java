@@ -1,6 +1,6 @@
 package com.robsil.userservice.service;
 
-import com.robsil.userservice.data.domain.User;
+import com.robsil.erommerce.userentityservice.data.domain.User;
 import com.robsil.userservice.user.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
