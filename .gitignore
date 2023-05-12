@@ -38,3 +38,5 @@ out/
 
 
 /infrastructure/databases/postgres/data/
+/infrastructure/databases/postgres/data/*
+/infrastructure/databases/postgres/data/**
