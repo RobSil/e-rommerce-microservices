@@ -21,14 +21,14 @@ repositories {
     mavenCentral()
 }
 
-def grpcVersion = "1.53.0"
+def grpcVersion = "1.55.1"
 
 dependencies {
     implementation "io.grpc:grpc-netty:${grpcVersion}"
     implementation "io.grpc:grpc-protobuf:${grpcVersion}"
     implementation "io.grpc:grpc-stub:${grpcVersion}"
-    implementation 'com.google.protobuf:protobuf-java:3.22.2'
-    implementation group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.22.2'
+    implementation 'com.google.protobuf:protobuf-java:3.23.1'
+    implementation group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.23.1'
 
 
     implementation 'jakarta.annotation:jakarta.annotation-api:2.1.1'
@@ -46,7 +46,7 @@ dependencies {
 
 protobuf {
     protoc {
-        artifact = 'com.google.protobuf:protoc:3.22.2'
+        artifact = 'com.google.protobuf:protoc:3.23.1'
     }
 
     plugins {

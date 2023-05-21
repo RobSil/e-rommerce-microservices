@@ -17,3 +17,5 @@ include 'order-service'
 include 'product-service'
 include 'cart-service'
 include 'user-entity-service'
+include 'jwt-integration-service'
+

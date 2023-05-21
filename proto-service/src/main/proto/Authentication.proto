@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+import "Common.proto";
+
+option java_multiple_files = true;
+option java_package = "com.robsil.proto";
+option java_outer_classname = "AuthenticationProto";
+
+service AuthenticationService {
+  rpc verifyToken(Token) returns (VerificationResponse);
+}
+
+message Token {
+  string value = 1;
+}
+
+message VerificationResponse {
+  int64 id = 1;
+  string username = 2;
+  repeated string authorities = 3;
+}

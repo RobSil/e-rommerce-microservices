@@ -1,0 +1,53 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.0.7'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'org.graalvm.buildtools.native' version '0.9.20'
+}
+
+group = 'com.robsil.erommerce'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('springCloudVersion', "2022.0.2")
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+def grpcVersion = "1.55.1"
+
+dependencies {
+
+    implementation "io.grpc:grpc-netty:${grpcVersion}"
+    implementation "io.grpc:grpc-protobuf:${grpcVersion}"
+    implementation "io.grpc:grpc-stub:${grpcVersion}"
+    implementation 'com.google.protobuf:protobuf-java:3.23.1'
+    implementation group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.23.1'
+
+    compileOnly "org.projectlombok:lombok"
+    annotationProcessor "org.projectlombok:lombok"
+    implementation "org.springframework.boot:spring-boot-starter-security"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation 'com.auth0:java-jwt:4.4.0'
+//    implementation "net.devh:grpc-client-spring-boot-starter:2.14.0.RELEASE"
+    implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
+
+
+
+    implementation project(":grpc-support-starter")
+    implementation project(":proto-service")
+    implementation project(":user-entity-service")
+    implementation project(":exception-starter")
+}
+
+test {
+    useJUnitPlatform()
+}

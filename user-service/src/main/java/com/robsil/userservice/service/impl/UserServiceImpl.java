@@ -26,6 +26,7 @@ import java.util.List;
 @Service
 @Log4j2
 @RequiredArgsConstructor
+//@GrpcService
 public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase implements UserService {
 
     private final UserRepository userRepository;
