@@ -10,6 +10,7 @@ service ProductService {
   rpc findById(Id) returns (Product);
 }
 
+// todo: enrich Product message
 message Product {
   int64 id = 1;
 
