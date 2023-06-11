@@ -1,4 +1,4 @@
-package com.robsil.erommerce.model.cartItem;
+package com.robsil.erommerce.model.cartitem;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;

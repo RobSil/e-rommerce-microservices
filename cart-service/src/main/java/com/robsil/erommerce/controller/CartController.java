@@ -1,9 +1,8 @@
 package com.robsil.erommerce.controller;
 
+import com.robsil.erommerce.jwtintegration.model.UserAuthenticationToken;
 import com.robsil.erommerce.model.cart.DetailedCartDto;
 import com.robsil.erommerce.service.facade.CartFacadeService;
-import com.robsil.proto.User;
-import com.robsil.userservice.model.OAuth2User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +20,12 @@ public class CartController {
     private final CartFacadeService cartFacadeService;
 
     @GetMapping
-    public ResponseEntity<DetailedCartDto> getByCurrentUser(@AuthenticationPrincipal OAuth2User user) {
+    public ResponseEntity<DetailedCartDto> getByCurrentUser(@AuthenticationPrincipal UserAuthenticationToken user) {
         return new ResponseEntity<>(cartFacadeService.findDetailedCartByUser(user), HttpStatus.OK);
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> deleteAllByCurrentUser(@AuthenticationPrincipal OAuth2User user) {
+    @DeleteMapping("/all")
+    public ResponseEntity<Void> deleteAllByCurrentUser(@AuthenticationPrincipal UserAuthenticationToken user) {
         cartFacadeService.deleteAll(user);
 
         return new ResponseEntity<>(HttpStatus.OK);

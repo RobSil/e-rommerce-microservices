@@ -2,9 +2,9 @@ package com.robsil.erommerce.service.facade;
 
 import com.robsil.erommerce.data.domain.CartItem;
 import com.robsil.erommerce.jwtintegration.model.UserAuthenticationToken;
-import com.robsil.erommerce.model.cartItem.CartItemChangeQuantityRequest;
-import com.robsil.erommerce.model.cartItem.CartItemCreateRequest;
-import com.robsil.erommerce.model.cartItem.CartItemQuantityChangeResponse;
+import com.robsil.erommerce.model.cartitem.CartItemChangeQuantityRequest;
+import com.robsil.erommerce.model.cartitem.CartItemCreateRequest;
+import com.robsil.erommerce.model.cartitem.CartItemQuantityChangeResponse;
 import com.robsil.erommerce.service.CartItemService;
 import com.robsil.erommerce.service.CartService;
 import com.robsil.model.exception.http.ForbiddenException;

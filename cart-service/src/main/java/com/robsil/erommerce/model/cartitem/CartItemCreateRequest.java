@@ -1,4 +1,4 @@
-package com.robsil.erommerce.model.cartItem;
+package com.robsil.erommerce.model.cartitem;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

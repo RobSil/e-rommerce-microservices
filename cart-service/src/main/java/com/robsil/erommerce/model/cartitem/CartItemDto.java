@@ -1,4 +1,4 @@
-package com.robsil.erommerce.model.cartItem;
+package com.robsil.erommerce.model.cartitem;
 
 import com.robsil.erommerce.model.cart.CartDto;
 import com.robsil.proto.Product;
