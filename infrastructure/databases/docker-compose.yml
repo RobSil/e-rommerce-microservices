@@ -11,7 +11,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
     volumes:
-      - "./postgres/data:/var/lib/postgresql/data"
+      - "./postgres/user-service-data:/var/lib/postgresql/data"
       - "./init-postgres.sql:/docker-entrypoint-initdb.d/init-postgres.sql"
     logging:
       driver: "json-file"
@@ -28,7 +28,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
     volumes:
-      - "./postgres/data:/var/lib/postgresql/data"
+      - "./postgres/cart-service-data:/var/lib/postgresql/data"
       - "./init-postgres.sql:/docker-entrypoint-initdb.d/init-postgres.sql"
     logging:
       driver: "json-file"
@@ -45,7 +45,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
     volumes:
-      - "./postgres/data:/var/lib/postgresql/data"
+      - "./postgres/order-service-data:/var/lib/postgresql/data"
       - "./init-postgres.sql:/docker-entrypoint-initdb.d/init-postgres.sql"
     logging:
       driver: "json-file"
@@ -62,7 +62,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
     volumes:
-      - "./postgres/data:/var/lib/postgresql/data"
+      - "./postgres/product-service-data:/var/lib/postgresql/data"
       - "./init-postgres.sql:/docker-entrypoint-initdb.d/init-postgres.sql"
     logging:
       driver: "json-file"
