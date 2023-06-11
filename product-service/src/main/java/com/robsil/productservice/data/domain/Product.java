@@ -41,7 +41,8 @@ public class Product extends BaseEntity {
     private BigDecimal quantity;
 
     @Column(name = "measure_unit")
-    private String measureUnit;
+    @Enumerated(EnumType.STRING)
+    private MeasureUnit measureUnit;
 
     @Column
     @Enumerated(EnumType.STRING)
