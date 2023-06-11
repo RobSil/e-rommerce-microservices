@@ -1,16 +1,20 @@
-package com.robsil.cartservice.util;
+package com.robsil.productservice.util;
 
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
 
+@SuppressWarnings({"java:S3376", "java:S131"})
 public class StringUtil {
 
-    private static Pattern STRING_MINIMIZE_REGEX = Pattern.compile("[^a-zA-Z0-9]");
+    private static final Pattern STRING_MINIMIZE_REGEX = Pattern.compile("[^a-zA-Z0-9]");
 
     private static ThreadLocalRandom random() {
         return ThreadLocalRandom.current();
+    }
+
+    private StringUtil() {
     }
 
     public static boolean isEmpty(String input) {

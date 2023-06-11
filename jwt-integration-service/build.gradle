@@ -44,7 +44,6 @@ dependencies {
 
     implementation project(":grpc-support-starter")
     implementation project(":proto-service")
-    implementation project(":user-entity-service")
     implementation project(":exception-starter")
 }
 

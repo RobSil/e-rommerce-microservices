@@ -1,4 +1,4 @@
-package com.robsil.userservice.config;
+package com.robsil.productservice.config;
 
 import com.robsil.erommerce.jwtintegration.filter.JwtClientServiceVerifierFilter;
 import lombok.RequiredArgsConstructor;
@@ -25,28 +25,12 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests()
-                .requestMatchers(
-                        "/api/login",
-                        "/login",
-                        "/api/v1/users/register",
-                        "/api/logout"
-                )
-                .permitAll();
-
-        http
-                .authorizeHttpRequests()
-                .requestMatchers("/api/v1/users/**")
-                .authenticated();
-
-        http
-                .authorizeHttpRequests()
                 .anyRequest()
-                .permitAll();
+                .authenticated();
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
-
 
 }

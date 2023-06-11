@@ -38,8 +38,8 @@ public class JwtClientServiceVerifierFilter extends OncePerRequestFilter {
 
     private final EurekaClient eurekaClient;
 
-    private final String AUTHORIZATION_HEADER = "Authorization";
-    private final String BEARER_PREFIX = "Bearer ";
+    private static final String AUTHORIZATION_HEADER = "Authorization";
+    private static final String BEARER_PREFIX = "Bearer ";
 
 //    @GrpcClient("authorization-service")
     private AuthenticationServiceGrpc.AuthenticationServiceBlockingStub authenticationServiceBlockingStub;
@@ -65,6 +65,7 @@ public class JwtClientServiceVerifierFilter extends OncePerRequestFilter {
         } catch (StatusRuntimeException e) {
             if (e.getStatus().equals(Status.UNAUTHENTICATED)) {
                 log.debug("Got unauthenticated from authentication-service.");
+                filterChain.doFilter(request, response);
                 return;
             }
 

@@ -22,6 +22,8 @@ dependencyManagement {
     }
 }
 
+def grpcVersion = "1.55.1"
+
 dependencies {
     compileOnly "org.projectlombok:lombok"
     annotationProcessor "org.projectlombok:lombok"
@@ -48,10 +50,18 @@ dependencies {
     implementation 'org.flywaydb:flyway-core'
     runtimeOnly 'org.postgresql:postgresql'
 
+    implementation "io.grpc:grpc-netty:${grpcVersion}"
+    implementation "io.grpc:grpc-protobuf:${grpcVersion}"
+    implementation "io.grpc:grpc-stub:${grpcVersion}"
+    implementation 'com.google.protobuf:protobuf-java:3.23.1'
+    implementation group: 'com.google.protobuf', name: 'protobuf-java-util', version: '3.23.1'
+
+
     implementation project(":proto-service")
     implementation project(":base-entity-starter")
     implementation project(":grpc-support-starter")
     implementation project(":exception-starter")
+    implementation project(":jwt-integration-service")
 }
 
 test {

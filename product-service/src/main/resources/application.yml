@@ -2,13 +2,6 @@ server:
   port: 6004
 
 spring:
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:9000
-
-
   application:
     name: product-service
   datasource:
@@ -24,7 +17,7 @@ spring:
 eureka:
   client:
     register-with-eureka: true
-    fetch-registry: false
+    fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka/
 
