@@ -1,6 +1,6 @@
 package com.robsil.erommerce.model.cart;
 
-import com.robsil.erommerce.model.cartItem.MinimizedCartItemDto;
+import com.robsil.erommerce.model.cartitem.MinimizedCartItemDto;
 import lombok.*;
 
 import java.util.List;
