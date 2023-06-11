@@ -32,7 +32,7 @@ public class ProductDto {
 
     private BigDecimal quantity;
 
-    private String measureUnit;
+    private MeasureUnit measureUnit;
 
     @NotNull
     private ProductStatus status;
