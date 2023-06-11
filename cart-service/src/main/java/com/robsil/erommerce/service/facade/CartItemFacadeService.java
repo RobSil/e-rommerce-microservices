@@ -1,6 +1,7 @@
 package com.robsil.erommerce.service.facade;
 
 import com.robsil.erommerce.data.domain.CartItem;
+import com.robsil.erommerce.jwtintegration.model.UserAuthenticationToken;
 import com.robsil.erommerce.model.cartItem.CartItemChangeQuantityRequest;
 import com.robsil.erommerce.model.cartItem.CartItemCreateRequest;
 import com.robsil.erommerce.model.cartItem.CartItemQuantityChangeResponse;
@@ -9,9 +10,8 @@ import com.robsil.erommerce.service.CartService;
 import com.robsil.model.exception.http.ForbiddenException;
 import com.robsil.proto.Id;
 import com.robsil.proto.ProductServiceGrpc;
-import com.robsil.userservice.model.OAuth2User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
+import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,11 +20,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class CartItemFacadeService {
 
     private final CartItemService cartItemService;
-    private final ProductServiceGrpc.ProductServiceBlockingStub productService;
+    // TODO: 10.06.2023 inject stub
+    @GrpcClient("product-service")
+    private ProductServiceGrpc.ProductServiceBlockingStub productService;
     private final CartService cartService;
 
     @Transactional
-    public CartItem addItem(OAuth2User user, CartItemCreateRequest req) {
+    public CartItem addItem(UserAuthenticationToken user, CartItemCreateRequest req) {
         var product = productService.findById(Id.newBuilder().setId(req.getProductId()).build());
         var cart = cartService.findByUserId(user.getId());
 
@@ -33,10 +35,10 @@ public class CartItemFacadeService {
 
     public CartItemQuantityChangeResponse changeQuantity(CartItemChangeQuantityRequest req,
                                                          Long cartItemId,
-                                                         OAuth2AuthenticatedPrincipal principal) {
+                                                         UserAuthenticationToken principal) {
         var cartItem = cartItemService.findById(cartItemId);
 
-        if (!cartItem.getCart().getUserId().equals(principal.getAttribute("id"))) {
+        if (!cartItem.getCart().getUserId().equals(principal.getId())) {
             throw new ForbiddenException("Can't change quantity of item from foreign cart.");
         }
 
@@ -52,10 +54,10 @@ public class CartItemFacadeService {
     }
 
     @Transactional
-    public void delete(Long cartItemId, OAuth2AuthenticatedPrincipal principal) {
+    public void delete(Long cartItemId, UserAuthenticationToken principal) {
         var cartItem = cartItemService.findById(cartItemId);
 
-        if (cartItem.getCart().getUserId().equals(principal.getAttribute("id"))) {
+        if (cartItem.getCart().getUserId().equals(principal.getId())) {
             throw new ForbiddenException("Can't delete foreign from cart.");
         }
 
