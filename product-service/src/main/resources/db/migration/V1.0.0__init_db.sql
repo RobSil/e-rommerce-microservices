@@ -23,10 +23,14 @@ create table products
     category_id bigint,
 --     group_id bigint,
     sku varchar(256),
+    name varchar(256),
     price numeric(19, 2),
-    quantity integer,
+    quantity numeric(19, 2),
+    measure_unit varchar(32),
     status varchar(32),
     is_active boolean,
+
+    properties jsonb,
 
     foreign key (category_id) references categories(id)
 );
