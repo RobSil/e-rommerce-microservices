@@ -1,28 +1,22 @@
 package com.robsil.erommerce.jwtintegration.filter;
 
 import com.netflix.appinfo.InstanceInfo;
-import com.netflix.discovery.DiscoveryClient;
 import com.netflix.discovery.EurekaClient;
-import com.netflix.eureka.registry.InstanceRegistry;
-import com.netflix.eureka.registry.PeerAwareInstanceRegistry;
+import com.robsil.erommerce.jwtintegration.model.UserAuthenticationToken;
 import com.robsil.erommerce.jwtintegration.util.StringUtil;
 import com.robsil.model.exception.http.ServiceUnavailableException;
 import com.robsil.proto.AuthenticationServiceGrpc;
 import com.robsil.proto.Token;
 import com.robsil.proto.VerificationResponse;
-import io.grpc.CallOptions;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
-import jakarta.annotation.PostConstruct;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.cloud.netflix.eureka.CloudEurekaClient;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -69,12 +63,15 @@ public class JwtClientServiceVerifierFilter extends OncePerRequestFilter {
                 return;
             }
 
+            authenticationServiceBlockingStub = null;
+
             throw e;
         }
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(authenticationResponse.getUsername(),
+        Authentication authentication = new UserAuthenticationToken(authenticationResponse.getUsername(),
                 null,
-                authenticationResponse.getAuthoritiesList().stream().map(SimpleGrantedAuthority::new).toList());
+                authenticationResponse.getAuthoritiesList().stream().map(SimpleGrantedAuthority::new).toList(),
+                authenticationResponse.getId());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         filterChain.doFilter(request, response);
@@ -92,7 +89,7 @@ public class JwtClientServiceVerifierFilter extends OncePerRequestFilter {
             throw e;
         }
         var channel = ManagedChannelBuilder
-                .forTarget(instanceInfo.getIPAddr() + ":" + instanceInfo.getMetadata().get("gRPC_port"))
+                .forTarget("dns:///" + instanceInfo.getIPAddr() + ":" + instanceInfo.getMetadata().get("gRPC_port"))
                 .usePlaintext()
                 .build();
         return AuthenticationServiceGrpc.newBlockingStub(channel);

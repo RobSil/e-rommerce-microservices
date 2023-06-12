@@ -28,8 +28,8 @@ dependencies {
     compileOnly "org.projectlombok:lombok"
     annotationProcessor "org.projectlombok:lombok"
 
-//    implementation "net.devh:grpc-server-spring-boot-starter:2.14.0.RELEASE"
-//    implementation "net.devh:grpc-client-spring-boot-starter:2.14.0.RELEASE"
+    implementation "net.devh:grpc-server-spring-boot-starter:2.14.0.RELEASE"
+    implementation "net.devh:grpc-client-spring-boot-starter:2.14.0.RELEASE"
 
 
     implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
