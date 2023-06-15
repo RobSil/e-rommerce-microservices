@@ -31,18 +31,16 @@ public class CartItem extends BaseEntity {
 
     private BigDecimal quantity;
 
-    private BigDecimal price;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CartItem cartItem = (CartItem) o;
-        return Objects.equals(cart, cartItem.cart) && Objects.equals(productId, cartItem.productId) && Objects.equals(quantity, cartItem.quantity) && Objects.equals(price, cartItem.price);
+        return Objects.equals(cart, cartItem.cart) && Objects.equals(productId, cartItem.productId) && Objects.equals(quantity, cartItem.quantity);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cart, productId, quantity, price);
+        return Objects.hash(cart, productId, quantity);
     }
 }

@@ -1,4 +1,4 @@
-package com.robsil.erommerce.protoservice.util;
+package com.robsil.erommerce.protoservice.util.converter;
 
 import com.google.protobuf.ByteString;
 

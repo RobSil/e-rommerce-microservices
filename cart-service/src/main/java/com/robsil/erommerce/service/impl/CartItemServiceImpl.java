@@ -3,7 +3,6 @@ package com.robsil.erommerce.service.impl;
 import com.robsil.erommerce.data.domain.Cart;
 import com.robsil.erommerce.data.domain.CartItem;
 import com.robsil.erommerce.data.repository.CartItemRepository;
-import com.robsil.erommerce.protoservice.util.BigDecimalConverter;
 import com.robsil.erommerce.service.CartItemService;
 import com.robsil.model.exception.http.EntityNotFoundException;
 import com.robsil.proto.Product;
@@ -51,7 +50,6 @@ public class CartItemServiceImpl implements CartItemService {
                 .cart(cart)
                 .productId(product.getId())
                 .quantity(quantity)
-                .price(quantity.multiply(BigDecimalConverter.toJava(product.getPrice())))
                 .build();
 
         cartItem = saveEntity(cartItem);
@@ -61,16 +59,9 @@ public class CartItemServiceImpl implements CartItemService {
 
     @Transactional
     @Override
-    public void changeQuantity(Long cartItemId, BigDecimal quantity) {
-        cartItemRepository.changeQuantity(cartItemId, quantity);
-//        CartItem cartItem = findById(cartItemId);
-//
-//        cartItem.setQuantity(quantity);
-//        cartItem.setPrice(quantity.multiply(cartItem.getProduct().getPrice()));
-//
-//        cartItem = saveEntity(cartItem);
-//
-//        return cartItem;
+    public CartItem changeQuantity(CartItem cartItem, BigDecimal quantity) {
+        cartItem.setQuantity(quantity);
+        return saveEntity(cartItem);
     }
 
     @Override

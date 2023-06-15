@@ -26,8 +26,7 @@ import java.util.List;
 @Service
 @Log4j2
 @RequiredArgsConstructor
-//@GrpcService
-public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase implements UserService {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -42,28 +41,8 @@ public class UserServiceImpl extends UserServiceGrpc.UserServiceImplBase impleme
     }
 
     @Override
-    public void findById(Id request, StreamObserver<com.robsil.proto.User> responseObserver) {
-        try {
-            responseObserver.onNext(findById(request.getId()).toProto());
-            responseObserver.onCompleted();
-        } catch (EntityNotFoundException e) {
-            responseObserver.onError(new GrpcNotFoundException(e));
-        }
-    }
-
-    @Override
     public List<User> findAll() {
         return userRepository.findAll();
-    }
-
-    @Override
-    public void findByEmail(Str request, StreamObserver<com.robsil.proto.User> responseObserver) {
-        try {
-            responseObserver.onNext(findByEmail(request.getText()).toProto());
-            responseObserver.onCompleted();
-        } catch (EntityNotFoundException e) {
-            responseObserver.onError(new GrpcNotFoundException(e));
-        }
     }
 
     @Override

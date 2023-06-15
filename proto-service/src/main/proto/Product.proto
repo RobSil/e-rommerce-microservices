@@ -8,12 +8,17 @@ option java_outer_classname = "ProductProto";
 
 service ProductService {
   rpc findById(Id) returns (Product);
+  rpc findAllByIdIn(IdArray) returns(ProductMap);
 }
 
 // todo: enrich Product message
 message Product {
   int64 id = 1;
-
   BigDecimal price = 2;
+  string name = 3;
+  string sku = 4;
+}
 
+message ProductMap {
+  map<int64, Product> products = 1;
 }

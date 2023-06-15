@@ -1,8 +1,6 @@
 package com.robsil.erommerce.service;
 
 import com.robsil.erommerce.data.domain.Cart;
-import com.robsil.proto.User;
-import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 
 public interface CartService {
 

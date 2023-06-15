@@ -13,7 +13,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,28 +24,24 @@ public class CartItemController {
     private final CartItemFacadeService cartItemFacadeService;
     private final CartService cartService;
 
-//    private final CartItemDtoMapper cartItemDtoMapper;
-
     @PostMapping
     public ResponseEntity<CartItemDto> create(@RequestBody @Valid CartItemCreateRequest req,
-                                              @AuthenticationPrincipal @NotNull UserAuthenticationToken user) {
-//        return new ResponseEntity<>(cartItemDtoMapper.apply(cartItemFacadeService.addItem(principal, req)), HttpStatus.CREATED);
-        cartItemFacadeService.addItem(user, req);
-        return new ResponseEntity<>(null, HttpStatus.CREATED);
+                                              @NotNull UserAuthenticationToken user) {
+        return new ResponseEntity<>(cartItemFacadeService.addItemController(user, req), HttpStatus.CREATED);
     }
 
     @PutMapping("/{cartItemId}/quantity")
     public ResponseEntity<CartItemQuantityChangeResponse> changeQuantity(@RequestBody @Valid CartItemChangeQuantityRequest req,
                                                                          @PathVariable Long cartItemId,
-                                                                         @AuthenticationPrincipal @NotNull UserAuthenticationToken user) {
+                                                                         @NotNull UserAuthenticationToken user) {
         return new ResponseEntity<>(cartItemFacadeService.changeQuantity(req, cartItemId, user), HttpStatus.OK);
     }
 
     @DeleteMapping("/{cartItemId}")
     public ResponseEntity<Void> delete(@PathVariable Long cartItemId,
-                                       @AuthenticationPrincipal @NotNull UserAuthenticationToken user) {
+                                       @NotNull UserAuthenticationToken user) {
         cartItemFacadeService.delete(cartItemId, user);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

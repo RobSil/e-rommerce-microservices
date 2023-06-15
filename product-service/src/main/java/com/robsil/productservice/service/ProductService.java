@@ -8,11 +8,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public interface ProductService {
 
     Product findById(Long productId);
     Product findBySku(String sku);
+    List<Product> findAllByIdIn(List<Long> ids);
     Page<Product> findAllByCategoryId(Long categoryId, Pageable pageable);
     Product create(ProductCreateRequest req, Category category);
     Product save(ProductSaveRequest req, Category category);

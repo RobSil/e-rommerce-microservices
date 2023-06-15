@@ -1,7 +1,7 @@
 package com.robsil.erommerce.model.cartitem;
 
 import com.robsil.erommerce.model.cart.CartDto;
-import com.robsil.proto.Product;
+import com.robsil.erommerce.protoservice.util.model.Product;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -15,6 +15,8 @@ import java.math.BigDecimal;
 public class CartItemDto {
 
     private CartDto cart;
+
+    private Long id;
 
     private Product product;
 

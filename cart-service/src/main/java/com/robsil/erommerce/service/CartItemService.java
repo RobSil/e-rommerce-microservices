@@ -15,7 +15,7 @@ public interface CartItemService {
     List<CartItem> findAllByCartId(Long cartId);
     Page<CartItem> findAllByCartId(Long cartId, Pageable pageable);
     CartItem create(Cart cart, Product product, BigDecimal quantity);
-    void changeQuantity(Long cartItemId, BigDecimal quantity);
+    CartItem changeQuantity(CartItem cartItem, BigDecimal quantity);
     void deleteById(Long cartItemId);
     void deleteAllByCartId(Long cartId);
 

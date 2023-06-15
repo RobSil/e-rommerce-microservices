@@ -15,6 +15,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findBySku(String sku);
     List<Product> findAllByCategoryId(Long categoryId);
     Page<Product> findAllByCategoryId(Long categoryId, Pageable pageable);
+    List<Product> findAllByIdIn(List<Long> ids);
 
     @Modifying
     @Query("delete from Product product where product.category.id = :categoryId")

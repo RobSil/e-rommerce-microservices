@@ -20,4 +20,6 @@ public class CartItemQuantityChangeResponse {
     @JsonProperty("new_quantity")
     private BigDecimal newQuantity;
 
+    private BigDecimal price;
+
 }

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 @Log4j2
@@ -75,6 +76,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> findAllByCategoryId(Long categoryId, Pageable pageable) {
         return productRepository.findAllByCategoryId(categoryId, pageable);
+    }
+
+    @Override
+    public List<Product> findAllByIdIn(List<Long> ids) {
+        return productRepository.findAllByIdIn(ids);
     }
 
     @Override

@@ -24,3 +24,9 @@ eureka:
 grpc:
   server:
     port: 7004
+  client:
+    user-service:
+      address: "discovery:///user-service"
+      enable-keep-alive: true
+      keep-alive-without-calls: true
+      negotiation-type: plaintext

@@ -27,7 +27,7 @@ public class CartController {
     public ResponseEntity<Void> deleteAllByCurrentUser(UserAuthenticationToken user) {
         cartFacadeService.deleteAll(user);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }
