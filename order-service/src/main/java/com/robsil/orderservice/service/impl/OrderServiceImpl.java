@@ -67,6 +67,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public Order changeStatus(Long orderId, OrderStatus newStatus) {
         return changeStatus(findById(orderId), newStatus);
     }
