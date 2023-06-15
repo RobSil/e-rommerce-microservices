@@ -107,6 +107,11 @@ public class ProductServiceImpl implements ProductService {
     public Product save(ProductSaveRequest req, Category category) {
         var product = findById(req.getId());
 
+        if (product == null) {
+            log.info("save: can't find product by ID: %s".formatted(req.getId()));
+            throw new EntityNotFoundException("Product not found.");
+        }
+
         product.setCategory(category);
         product.setName(req.getName());
         product.setSku(req.getSku());
