@@ -31,3 +31,11 @@ eureka:
 grpc:
   server:
     port: 7003
+
+  client:
+    cart-service:
+      address: "discovery:///cart-service"
+      enable-keep-alive: true
+      keep-alive-without-calls: true
+      negotiation-type: plaintext
+

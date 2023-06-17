@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+import "Common.proto";
+import "google/protobuf/empty.proto";
+
+option java_multiple_files = true;
+option java_package = "com.robsil.proto";
+option java_outer_classname = "CartProto";
+
+service CartService {
+  rpc findByUserId(Id) returns (Cart);
+  rpc deleteAllByUserId(Id) returns (google.protobuf.Empty);
+}
+
+message Cart {
+  int64 userId = 1;
+  repeated CartItem cartItems = 2;
+}
+
+message CartItem {
+  int64 productId = 1;
+  BigDecimal quantity = 2;
+}

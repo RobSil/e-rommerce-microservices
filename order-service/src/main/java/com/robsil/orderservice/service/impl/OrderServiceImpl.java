@@ -1,9 +1,11 @@
 package com.robsil.orderservice.service.impl;
 
+import com.robsil.erommerce.jwtintegration.model.UserAuthenticationToken;
 import com.robsil.model.exception.http.EntityNotFoundException;
 import com.robsil.orderservice.data.domain.Order;
 import com.robsil.orderservice.data.repository.OrderRepository;
 import com.robsil.orderservice.model.OrderStatus;
+import com.robsil.orderservice.model.order.OrderCreateRequest;
 import com.robsil.orderservice.model.order.OrderDetails;
 import com.robsil.orderservice.service.OrderService;
 import com.robsil.proto.User;
@@ -45,11 +47,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public Order create(User user, OrderStatus status, OrderDetails details) {
+    public Order create(UserAuthenticationToken user, OrderCreateRequest request) {
         var order = Order.builder()
                 .userId(user.getId())
-                .status(status)
-                .details(details)
+                .status(request.getStatus())
+                .details(request.getDetails())
                 .build();
 
         order = saveEntity(order);
