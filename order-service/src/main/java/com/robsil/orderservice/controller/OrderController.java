@@ -25,13 +25,13 @@ public class OrderController {
     public ResponseEntity<DetailedOrderDto> create(@RequestBody OrderCreateRequest request, UserAuthenticationToken user) {
         var result = orderFacadeService.create(user, request);
         return new ResponseEntity<>(DetailedOrderDto.builder()
-                .order(new OrderDto(result.getOrder().getId(),
-                        result.getOrder().getUserId(),
-                        result.getOrder().getStatus(),
-                        result.getOrder().getDetails()))
+                .order(new OrderDto(result.order().getId(),
+                        result.order().getUserId(),
+                        result.order().getStatus(),
+                        result.order().getDetails()))
 
-                .orderItems(result.getOrderItems().stream()
-                        .map(item -> new OrderItemDto(item.getProductId(), item.getQuantity()))
+                .orderItems(result.items().stream()
+                        .map(item -> new OrderItemDto(item.productId(), item.quantity()))
                         .toList())
                 .build(), HttpStatus.CREATED);
     }

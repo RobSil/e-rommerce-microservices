@@ -1,0 +1,3 @@
+com.robsil.autoconfiguration.CustomGrpcMetadataEurekaConfiguration
+
+com.robsil.erommerce.config.MailingServiceAutoConfiguration

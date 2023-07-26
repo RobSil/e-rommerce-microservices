@@ -2,6 +2,8 @@ package com.robsil.authorizationservice.controller;
 
 import com.robsil.authorizationservice.model.AuthenticationResponse;
 import com.robsil.authorizationservice.service.AuthenticationService;
+import io.micrometer.observation.Observation;
+import io.micrometer.observation.ObservationRegistry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -20,6 +22,7 @@ import java.util.Base64;
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
+    private final ObservationRegistry observationRegistry;
 
     @PostMapping
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestParam String credentials) {
@@ -28,7 +31,8 @@ public class AuthenticationController {
             throw new HttpClientErrorException(HttpStatusCode.valueOf(400), "Credentials invalid");
         }
 
-        return new ResponseEntity<>(authenticationService.authenticate(usernamePassword[0], usernamePassword[1]), HttpStatus.OK);
+        return Observation.createNotStarted("authenticate", observationRegistry)
+                .observe(() -> new ResponseEntity<>(authenticationService.authenticate(usernamePassword[0], usernamePassword[1]), HttpStatus.OK));
     }
 
 }

@@ -1,0 +1,42 @@
+server:
+  port: 6005
+
+spring:
+  application:
+    name: mail-service
+  datasource:
+    url: jdbc:postgresql://localhost:5005/postgres
+    username: postgres
+    password: root
+
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+  kafka:
+    consumer:
+      group-id: default
+    bootstrap-servers: localhost:9092
+
+
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: false
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+grpc:
+  server:
+    port: 7005
+
+mail:
+  smtp:
+    host: smtp-relay.brevo.com
+    port: 587
+    username: robsilforspam@gmail.com
+    password: D29YW1H6QnMraVTN
+    emailFrom: robsilforspam@gmail.com
+    starttls: true

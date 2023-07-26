@@ -4,16 +4,11 @@ package com.robsil.userservice.service.impl;
 import com.robsil.erommerce.userentityservice.data.domain.ERole;
 import com.robsil.erommerce.userentityservice.data.domain.User;
 import com.robsil.userservice.data.repository.UserRepository;
-import com.robsil.model.exception.grpc.GrpcNotFoundException;
 import com.robsil.model.exception.http.EntityNotFoundException;
 import com.robsil.model.exception.http.HttpConflictException;
 import com.robsil.model.exception.http.UnauthorizedException;
 import com.robsil.userservice.user.UserRegistrationRequest;
-import com.robsil.proto.Id;
-import com.robsil.proto.Str;
-import com.robsil.proto.UserServiceGrpc;
 import com.robsil.userservice.service.UserService;
-import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -68,7 +63,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void register(UserRegistrationRequest dto) {
+    public User register(UserRegistrationRequest dto) {
 
         if (existsByEmail(dto.getEmail())) {
             throw new HttpConflictException("Email is already occupied.");
@@ -86,7 +81,7 @@ public class UserServiceImpl implements UserService {
 
         user.getRoles().add(ERole.USER);
 
-        saveEntity(user);
+        return saveEntity(user);
     }
 
     @Override

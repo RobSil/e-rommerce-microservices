@@ -6,6 +6,8 @@ spring:
 
   application:
     name: authorization-service
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 server:
   port: 9000
@@ -27,3 +29,8 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka/
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

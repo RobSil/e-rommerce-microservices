@@ -14,6 +14,9 @@ spring:
     hibernate:
       ddl-auto: validate
 
+  kafka:
+    bootstrap-servers: localhost:9092
+
 
 eureka:
   client:
@@ -31,6 +34,8 @@ grpc:
       enable-keep-alive: true
       keep-alive-without-calls: true
       negotiation-type: plaintext
+
+
 
 logging:
   level:

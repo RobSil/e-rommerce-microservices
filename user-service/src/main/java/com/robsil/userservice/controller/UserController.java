@@ -1,6 +1,7 @@
 package com.robsil.userservice.controller;
 
 import com.robsil.erommerce.userentityservice.data.domain.User;
+import com.robsil.userservice.service.UserFacadeService;
 import com.robsil.userservice.user.UserRegistrationRequest;
 import com.robsil.userservice.service.UserService;
 import jakarta.validation.Valid;
@@ -17,6 +18,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final UserFacadeService userFacadeService;
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
@@ -25,7 +27,7 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody @Valid UserRegistrationRequest dto) {
-        userService.register(dto);
+        userFacadeService.register(dto);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

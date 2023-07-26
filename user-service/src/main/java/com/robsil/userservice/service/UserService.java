@@ -14,7 +14,7 @@ public interface UserService {
     User findByPrincipal(Principal principal);
     User findByEmail(String email);
     User saveEntity(User user);
-    void register(UserRegistrationRequest dto);
+    User register(UserRegistrationRequest dto);
     boolean existsByEmail(String email);
     long countAll();
 }

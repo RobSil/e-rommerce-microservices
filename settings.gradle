@@ -14,4 +14,7 @@ include 'product-service'
 include 'cart-service'
 include 'user-entity-service'
 include 'jwt-integration-service'
+include 'mail-service'
+include 'mail-service-commons'
+include 'mail-service-starter'
 
