@@ -5,7 +5,6 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
 
-@SuppressWarnings({"java:S3376", "java:S131"})
 public class StringUtil {
 
     private static final Pattern STRING_MINIMIZE_REGEX = Pattern.compile("[^a-zA-Z0-9]");

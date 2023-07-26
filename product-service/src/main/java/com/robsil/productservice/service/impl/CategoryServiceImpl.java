@@ -31,8 +31,6 @@ public class CategoryServiceImpl implements CategoryService {
     private void recursiveCheckParent(Category category) {
         // we have to verify, that category.id doesn't equal any of parent ids.
 
-        List<Long> ids = new ArrayList<>();
-
         Category parent = category.getParent();
         while (parent != null) {
             if (parent.getId().equals(category.getId())) {

@@ -10,7 +10,6 @@ import com.robsil.proto.Id;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.ScopeMetadata;
 import org.springframework.stereotype.Service;
 
 @Service

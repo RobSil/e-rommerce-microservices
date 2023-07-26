@@ -23,6 +23,8 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
+import static com.robsil.authorizationservice.service.AuthenticationService.*;
+
 @Component
 @RequiredArgsConstructor
 public class JWTVerifierFilter extends OncePerRequestFilter {
@@ -45,9 +47,9 @@ public class JWTVerifierFilter extends OncePerRequestFilter {
 
         var verifier = JWT
                 .require(Algorithm.RSA256(rsaHolder.getPublicKey(), rsaHolder.getPrivateKey()))
-                .withClaimPresence("username")
-                .withClaimPresence("id")
-                .withClaimPresence("authorities")
+                .withClaimPresence(USERNAME_CLAIM_NAME)
+                .withClaimPresence(ID_CLAIM_NAME)
+                .withClaimPresence(AUTHORITIES_CLAIM_NAME)
                 .build();
 
         var decodedJwt = verifier.verify(authToken);
@@ -57,7 +59,7 @@ public class JWTVerifierFilter extends OncePerRequestFilter {
 
         String username = (String) payload.get("username");
 
-        List<String> authorities = (List<String>) payload.get("authorities");
+        List<String> authorities = (List<String>) payload.get(AUTHORITIES_CLAIM_NAME);
         List<SimpleGrantedAuthority> grantedAuthorities = authorities
                 .stream()
                 .map(SimpleGrantedAuthority::new)
@@ -66,8 +68,8 @@ public class JWTVerifierFilter extends OncePerRequestFilter {
         Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, grantedAuthorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        httpServletRequest.setAttribute("username", username);
-        httpServletRequest.setAttribute("authorities", grantedAuthorities);
+        httpServletRequest.setAttribute(USERNAME_CLAIM_NAME, username);
+        httpServletRequest.setAttribute(AUTHORITIES_CLAIM_NAME, grantedAuthorities);
         httpServletRequest.setAttribute("jwt", authToken);
 
         filterChain.doFilter(httpServletRequest, httpServletResponse);

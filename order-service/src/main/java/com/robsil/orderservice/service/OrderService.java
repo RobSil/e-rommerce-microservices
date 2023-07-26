@@ -4,8 +4,6 @@ import com.robsil.erommerce.jwtintegration.model.UserAuthenticationToken;
 import com.robsil.orderservice.data.domain.Order;
 import com.robsil.orderservice.model.OrderStatus;
 import com.robsil.orderservice.model.order.OrderCreateRequest;
-import com.robsil.orderservice.model.order.OrderDetails;
-import com.robsil.proto.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

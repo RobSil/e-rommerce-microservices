@@ -29,12 +29,6 @@ public class BaseEntity {
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
 
-//    @CreatedBy
-//    private Principal createdBy;
-//
-//    @LastModifiedBy
-//    private Principal modifiedBy;
-
     @Version
     private long version;
 

@@ -40,6 +40,10 @@ public class AuthenticationService extends AuthenticationServiceGrpc.Authenticat
     private final AuthenticationManager authenticationManager;
     private final RSAHolder rsaHolder;
 
+    public static final String USERNAME_CLAIM_NAME = "username";
+    public static final String ID_CLAIM_NAME = "ID";
+    public static final String AUTHORITIES_CLAIM_NAME = "authorities";
+
     @Override
     public void verifyToken(Token request, io.grpc.stub.StreamObserver<com.robsil.proto.VerificationResponse> responseObserver) {
         try {
@@ -70,9 +74,9 @@ public class AuthenticationService extends AuthenticationServiceGrpc.Authenticat
                 .withIssuer("SINGLE_AUTHORIZATION_SERVICE")
                 .withIssuedAt(Instant.now())
                 .withExpiresAt(Instant.now().plus(7L, ChronoUnit.DAYS))
-                .withClaim("username", user.getEmail())
-                .withClaim("id", user.getId())
-                .withClaim("authorities", user.getRoles().stream().map(ERole::getValue).toList())
+                .withClaim(USERNAME_CLAIM_NAME, user.getEmail())
+                .withClaim(ID_CLAIM_NAME, user.getId())
+                .withClaim(AUTHORITIES_CLAIM_NAME, user.getRoles().stream().map(ERole::getValue).toList())
                 .sign(Algorithm.RSA256(rsaHolder.getPublicKey(), rsaHolder.getPrivateKey()));
 
         return AuthenticationResponse
@@ -89,9 +93,9 @@ public class AuthenticationService extends AuthenticationServiceGrpc.Authenticat
     public VerificationResponse verifyToken(String token) {
         var verifier = JWT
                 .require(Algorithm.RSA256(rsaHolder.getPublicKey(), rsaHolder.getPrivateKey()))
-                .withClaimPresence("username")
-                .withClaimPresence("id")
-                .withClaimPresence("authorities")
+                .withClaimPresence(USERNAME_CLAIM_NAME)
+                .withClaimPresence(ID_CLAIM_NAME)
+                .withClaimPresence(AUTHORITIES_CLAIM_NAME)
                 .build();
 
         var decodedJwt = verifier.verify(token);
@@ -102,8 +106,8 @@ public class AuthenticationService extends AuthenticationServiceGrpc.Authenticat
         return VerificationResponse
                 .builder()
                 .id((long) ((Integer) payload.get("id")))
-                .username((String) payload.get("username"))
-                .authorities((List<String>) payload.get("authorities"))
+                .username((String) payload.get(USERNAME_CLAIM_NAME))
+                .authorities((List<String>) payload.get(AUTHORITIES_CLAIM_NAME))
                 .build();
     }
 }

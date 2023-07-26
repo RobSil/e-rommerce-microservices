@@ -9,7 +9,7 @@ import java.util.List;
 public class ValidationErrorResponse extends HttpException {
 
     @Getter
-    private List<Violation> violations = new ArrayList<>();
+    private final List<Violation> violations = new ArrayList<>();
 
     public ValidationErrorResponse() {
         super(HttpStatus.BAD_REQUEST.value());
