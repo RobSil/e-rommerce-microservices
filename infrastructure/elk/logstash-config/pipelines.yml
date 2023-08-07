@@ -1,0 +1,2 @@
+- pipeline.id: postgres_to_elasticsearch
+  path.config: "/usr/share/logstash/pipeline/postgres_to_elasticsearch.conf"

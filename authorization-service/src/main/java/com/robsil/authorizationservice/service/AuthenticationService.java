@@ -41,7 +41,7 @@ public class AuthenticationService extends AuthenticationServiceGrpc.Authenticat
     private final RSAHolder rsaHolder;
 
     public static final String USERNAME_CLAIM_NAME = "username";
-    public static final String ID_CLAIM_NAME = "ID";
+    public static final String ID_CLAIM_NAME = "id";
     public static final String AUTHORITIES_CLAIM_NAME = "authorities";
 
     @Override
