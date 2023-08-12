@@ -117,8 +117,10 @@ public class ProductServiceImpl implements ProductService {
                     .build();
 
             var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            //noinspection unchecked
             var hits = (List<Object>) ((Map<String, Object>) objectMapper.readValue(response.body(), Map.class).get("hits")).get("hits");
 
+            //noinspection unchecked
             return hits.stream()
                     .map(obj -> (Map<String, Object>) obj)
                     .map(map -> (Map<String, Object>) map.get("_source"))
