@@ -15,6 +15,7 @@ public interface ProductService {
     Product findById(Long productId);
     Product findBySku(String sku);
     List<Product> findAllByIdIn(List<Long> ids);
+    List<Product> search(String searchText);
     Page<Product> findAllByCategoryId(Long categoryId, Pageable pageable);
     Product create(ProductCreateRequest req, Category category);
     Product save(ProductSaveRequest req, Category category);

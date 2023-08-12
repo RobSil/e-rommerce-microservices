@@ -12,6 +12,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+  elasticsearch:
+    uri: 'http://localhost:9200'
 
 
 eureka:

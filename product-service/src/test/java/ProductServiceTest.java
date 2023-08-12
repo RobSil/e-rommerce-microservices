@@ -35,7 +35,8 @@ class ProductServiceTest {
 
     @BeforeEach
     public void beforeEach() {
-        productService = new ProductServiceImpl(productRepository);
+//        productService = new ProductServiceImpl(productRepository);
+        productService = null;
     }
 
     @Test

@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/products")
@@ -25,6 +27,13 @@ public class ProductController {
         var product = productService.findBySku(sku);
 
         return new ResponseEntity<>(new ProductCheckSkuResponse(true, productDtoMapper.apply(product)), HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<ProductDto>> search(@RequestParam String text) {
+        var products = productService.search(text).stream().map(productDtoMapper).toList();
+
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @PostMapping

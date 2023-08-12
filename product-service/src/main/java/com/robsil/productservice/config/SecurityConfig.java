@@ -25,6 +25,11 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests()
+                .requestMatchers("/api/v1/products/search")
+                .permitAll();
+
+        http
+                .authorizeHttpRequests()
                 .anyRequest()
                 .authenticated();
 
