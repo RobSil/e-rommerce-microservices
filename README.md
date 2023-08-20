@@ -1,6 +1,6 @@
 # e-rommerce-microservices
 
-This is implementation of [monolithic e-rommerce](https://github.com/RobSil/e-rommerce) but in microservice architecture.
+This is implementation of [monolithic e-rommerce](https://github.com/RobSil/e-rommerce) but in microservice architecture (and some advanced features).
 
 
 Microservices:
@@ -10,4 +10,5 @@ Microservices:
  - notificationservice (may send emails and some system notifications)
  - userservice
  - paymentservice
- - (additional system needs services like: gateway, configservice, etc.)
+ - merchantservice
+ - technical microservices (eureka, gateway)
