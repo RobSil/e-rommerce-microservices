@@ -1,1 +1,2 @@
 com.robsil.erommerce.jwtintegration.filter.JwtClientServiceVerifierFilter
+com.robsil.erommerce.jwtintegration.config.CsrfSecurityChainConfig

@@ -15,4 +15,5 @@ public class VerificationResponse {
     private Long id;
     private String username;
     private List<String> authorities;
+    private boolean isMerchant;
 }

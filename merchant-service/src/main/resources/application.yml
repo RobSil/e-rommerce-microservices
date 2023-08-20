@@ -1,0 +1,45 @@
+server:
+  port: 6006
+  host: http://localhost:6006
+  error:
+    include-message: always
+    include-exception: true
+    include-binding-errors: always
+
+spring:
+  application:
+    name: merchant-service
+  datasource:
+    url: jdbc:postgresql://localhost:5006/postgres
+    username: postgres
+    password: root
+
+logging:
+  level:
+    org:
+      springframework:
+        security: trace
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+  mvc:
+    problemdetails:
+      enabled: true
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+grpc:
+  server:
+    port: 7006
+  client:
+    user-service:
+      address: "discovery:///user-service"
+      enable-keep-alive: true
+      keep-alive-without-calls: true
+      negotiation-type: plaintext

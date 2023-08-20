@@ -5,6 +5,8 @@ import com.robsil.authorizationservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -30,9 +32,9 @@ public class SecurityConfig {
     }
 
     @Bean
+    @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
-                                                   UserDetailsService userDetailsService,
-                                                   PasswordEncoder passwordEncoder) throws Exception {
+                                                   AuthenticationProvider authenticationProvider) throws Exception {
         http.csrf().disable();
 
         http
@@ -43,24 +45,27 @@ public class SecurityConfig {
                 .addFilterBefore(jwtVerifierFilter, UsernamePasswordAuthenticationFilter.class);
 
         http
-                .authenticationProvider(authenticationProvider(passwordEncoder));
+                .authenticationProvider(authenticationProvider);
         http
                 .authorizeHttpRequests()
                 .requestMatchers("/api/v1/auth",
                         "/actuator/**")
-                .permitAll()
+                .permitAll();
+
+        http
+                .authorizeHttpRequests()
                 .anyRequest()
-                .authenticated()
-        ;
+                .authenticated();
 
         return http.build();
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(PasswordEncoder passwordEncoder) {
+    public AuthenticationProvider authenticationProvider(PasswordEncoder passwordEncoder,
+                                                         UserDetailsService userDetailsService) {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
-        daoAuthenticationProvider.setUserDetailsService(userDetailsService());
+        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
 
         return daoAuthenticationProvider;
     }

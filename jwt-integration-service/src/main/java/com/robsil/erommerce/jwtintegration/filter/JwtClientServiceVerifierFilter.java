@@ -35,7 +35,7 @@ public class JwtClientServiceVerifierFilter extends OncePerRequestFilter {
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String BEARER_PREFIX = "Bearer ";
 
-//    @GrpcClient("authorization-service")
+    //    @GrpcClient("authorization-service")
     private AuthenticationServiceGrpc.AuthenticationServiceBlockingStub authenticationServiceBlockingStub;
 
     @Override
@@ -55,7 +55,10 @@ public class JwtClientServiceVerifierFilter extends OncePerRequestFilter {
         VerificationResponse authenticationResponse = null;
 
         try {
-            authenticationResponse = authenticationServiceBlockingStub.verifyToken(Token.newBuilder().setValue(authToken).build());
+            authenticationResponse = authenticationServiceBlockingStub.verifyToken(Token.newBuilder()
+                    .setValue(authToken)
+                    .setCheckIsMerchant(true)
+                    .build());
         } catch (StatusRuntimeException e) {
             if (e.getStatus().equals(Status.UNAUTHENTICATED)) {
                 log.debug("Got unauthenticated from authentication-service.");
@@ -71,7 +74,8 @@ public class JwtClientServiceVerifierFilter extends OncePerRequestFilter {
         Authentication authentication = new UserAuthenticationToken(authenticationResponse.getUsername(),
                 null,
                 authenticationResponse.getAuthoritiesList().stream().map(SimpleGrantedAuthority::new).toList(),
-                authenticationResponse.getId());
+                authenticationResponse.getId(),
+                authenticationResponse.getIsMerchant());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         filterChain.doFilter(request, response);

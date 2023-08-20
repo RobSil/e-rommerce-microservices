@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+import "Common.proto";
+
+option java_multiple_files = true;
+option java_package = "com.robsil.proto";
+option java_outer_classname = "MerchantProto";
+
+service MerchantService {
+  rpc findByUserId(Id) returns (Merchant);
+}
+
+service MerchantStoreService {
+  rpc findById(Id) returns (MerchantStore);
+  rpc findByMerchantId(Id) returns (MerchantStore);
+}
+
+message Merchant {
+  int64 id = 1;
+  int64 userId = 2;
+  string firstName = 3;
+  string lastName = 4;
+  string phoneNumber = 5;
+  string email = 6;
+  bool isNotBlocked = 7;
+}
+
+message MerchantStore {
+  Merchant merchant = 1;
+  string name = 2;
+  repeated MerchantStoreContact contacts = 3;
+  bool isNotBlocked = 4;
+}
+
+message MerchantStoreContact {
+  string name = 1;
+  string value = 2;
+}

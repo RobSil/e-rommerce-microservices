@@ -8,14 +8,29 @@ option java_outer_classname = "AuthenticationProto";
 
 service AuthenticationService {
   rpc verifyToken(Token) returns (VerificationResponse);
+  rpc authenticate(Credentials) returns (AuthenticationResponse);
 }
 
 message Token {
   string value = 1;
+  optional bool checkIsMerchant = 2;
+}
+
+message Credentials {
+  string username = 1;
+  string password = 2;
 }
 
 message VerificationResponse {
   int64 id = 1;
   string username = 2;
   repeated string authorities = 3;
+  bool isMerchant = 4;
+}
+
+message AuthenticationResponse {
+  bool isAuthenticated = 1;
+  string username = 2;
+  string token = 3;
+  repeated string authorities = 4;
 }

@@ -20,7 +20,6 @@ public class UserDtoMapper implements Function<User, UserDto> {
                 .dateOfBirth(user.getDateOfBirth())
                 .gender(user.getGender())
                 .emailConfirmed(user.isEmailConfirmed())
-                .roles(user.getRoles())
                 .build();
     }
 }

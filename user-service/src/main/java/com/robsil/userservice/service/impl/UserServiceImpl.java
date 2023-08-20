@@ -24,6 +24,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -79,7 +80,9 @@ public class UserServiceImpl implements UserService {
                 .isEnabled(true)
                 .build();
 
-        user.getRoles().add(ERole.USER);
+        var userRole = roleService.findByCode("USER", true);
+
+        user.getRoles().add(userRole);
 
         return saveEntity(user);
     }

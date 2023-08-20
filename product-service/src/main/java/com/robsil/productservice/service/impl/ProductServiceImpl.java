@@ -143,13 +143,14 @@ public class ProductServiceImpl implements ProductService {
     public Product create(ProductCreateRequest req, Category category) {
         var product = Product.builder()
                 .category(category)
-                .name(req.getName())
-                .sku(req.getSku())
-                .price(req.getPrice())
-                .quantity(req.getQuantity())
-                .measureUnit(req.getMeasureUnit())
-                .status(req.getStatus())
+                .name(req.name())
+                .sku(req.sku())
+                .price(req.price())
+                .quantity(req.quantity())
+                .measureUnit(req.measureUnit())
+                .status(req.status())
                 .isActive(req.isActive())
+                .merchantStoreId(req.merchantStoreId())
                 .build();
 
         product = saveEntity(product);
@@ -160,20 +161,20 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public Product save(ProductSaveRequest req, Category category) {
-        var product = findById(req.getId());
+        var product = findById(req.id());
 
         if (product == null) {
-            log.info("save: can't find product by ID: %s".formatted(req.getId()));
+            log.info("save: can't find product by ID: %s".formatted(req.id()));
             throw new EntityNotFoundException(PRODUCT_NOT_FOUND_MESSAGE);
         }
 
         product.setCategory(category);
-        product.setName(req.getName());
-        product.setSku(req.getSku());
-        product.setPrice(req.getPrice());
-        product.setQuantity(req.getQuantity());
-        product.setMeasureUnit(req.getMeasureUnit());
-        product.setStatus(req.getStatus());
+        product.setName(req.name());
+        product.setSku(req.sku());
+        product.setPrice(req.price());
+        product.setQuantity(req.quantity());
+        product.setMeasureUnit(req.measureUnit());
+        product.setStatus(req.status());
         product.setActive(req.isActive());
 
         product = saveEntity(product);

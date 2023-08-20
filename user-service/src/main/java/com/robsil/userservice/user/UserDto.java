@@ -1,13 +1,10 @@
 package com.robsil.userservice.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.robsil.erommerce.userentityservice.data.domain.ERole;
 import com.robsil.erommerce.userentityservice.data.domain.Gender;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -31,8 +28,5 @@ public class UserDto {
     private Gender gender;
 
     private boolean emailConfirmed;
-
-    @Builder.Default
-    private List<ERole> roles = new ArrayList<>();
 
 }

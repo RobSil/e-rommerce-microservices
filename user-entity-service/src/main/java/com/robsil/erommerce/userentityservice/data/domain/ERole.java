@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum ERole {
-    USER("USER"), ADMIN("ADMIN"), SUPERADMIN("SUPERADMIN");
+    USER("USER"), ADMIN("ADMIN"), SUPER_ADMIN("SUPER_ADMIN");
 
     private final String value;
 

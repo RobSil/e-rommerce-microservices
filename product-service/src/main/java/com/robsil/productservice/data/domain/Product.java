@@ -56,6 +56,9 @@ public class Product extends BaseEntity {
     @Column(columnDefinition = "jsonb")
     private Map<String, Object> properties = new HashMap<>();
 
+    @Column(name = "merchant_store_id")
+    private Long merchantStoreId;
+
 
     @Override
     public boolean equals(Object o) {

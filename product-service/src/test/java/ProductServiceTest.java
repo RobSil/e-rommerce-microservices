@@ -131,26 +131,26 @@ class ProductServiceTest {
                 BigDecimal.ONE,
                 MeasureUnit.PIECE,
                 ProductStatus.IN_STOCK,
-                true);
+                true, null);
 
         var argProduct = Product.builder()
-                .name(createRequest.getName())
-                .sku(createRequest.getSku())
-                .price(createRequest.getPrice())
-                .quantity(createRequest.getQuantity())
-                .measureUnit(createRequest.getMeasureUnit())
-                .status(createRequest.getStatus())
+                .name(createRequest.name())
+                .sku(createRequest.sku())
+                .price(createRequest.price())
+                .quantity(createRequest.quantity())
+                .measureUnit(createRequest.measureUnit())
+                .status(createRequest.status())
                 .isActive(createRequest.isActive())
                 .build();
 
         var argProductId = Product.builder()
                 .id(1L)
-                .name(createRequest.getName())
-                .sku(createRequest.getSku())
-                .price(createRequest.getPrice())
-                .quantity(createRequest.getQuantity())
-                .measureUnit(createRequest.getMeasureUnit())
-                .status(createRequest.getStatus())
+                .name(createRequest.name())
+                .sku(createRequest.sku())
+                .price(createRequest.price())
+                .quantity(createRequest.quantity())
+                .measureUnit(createRequest.measureUnit())
+                .status(createRequest.status())
                 .isActive(createRequest.isActive())
                 .build();
 
@@ -164,22 +164,22 @@ class ProductServiceTest {
         //expect
         verify(productRepository).save(captor.capture());
         var arg = captor.getValue();
-        assertEquals(createRequest.getCategoryId(), category.getId());
-        assertEquals(createRequest.getName(), arg.getName());
-        assertEquals(createRequest.getSku(), arg.getSku());
-        assertEquals(createRequest.getPrice(), arg.getPrice());
-        assertEquals(createRequest.getQuantity(), arg.getQuantity());
-        assertEquals(createRequest.getMeasureUnit(), arg.getMeasureUnit());
-        assertEquals(createRequest.getStatus(), arg.getStatus());
+        assertEquals(createRequest.categoryId(), category.getId());
+        assertEquals(createRequest.name(), arg.getName());
+        assertEquals(createRequest.sku(), arg.getSku());
+        assertEquals(createRequest.price(), arg.getPrice());
+        assertEquals(createRequest.quantity(), arg.getQuantity());
+        assertEquals(createRequest.measureUnit(), arg.getMeasureUnit());
+        assertEquals(createRequest.status(), arg.getStatus());
 
         assertEquals(product.getId(), argProductId.getId());
-        assertEquals(createRequest.getCategoryId(), product.getId());
-        assertEquals(createRequest.getName(), product.getName());
-        assertEquals(createRequest.getSku(), product.getSku());
-        assertEquals(createRequest.getPrice(), product.getPrice());
-        assertEquals(createRequest.getQuantity(), product.getQuantity());
-        assertEquals(createRequest.getMeasureUnit(), product.getMeasureUnit());
-        assertEquals(createRequest.getStatus(), product.getStatus());
+        assertEquals(createRequest.categoryId(), product.getId());
+        assertEquals(createRequest.name(), product.getName());
+        assertEquals(createRequest.sku(), product.getSku());
+        assertEquals(createRequest.price(), product.getPrice());
+        assertEquals(createRequest.quantity(), product.getQuantity());
+        assertEquals(createRequest.measureUnit(), product.getMeasureUnit());
+        assertEquals(createRequest.status(), product.getStatus());
     }
 
     @Test
@@ -217,12 +217,12 @@ class ProductServiceTest {
         var toSave = Product.builder()
                 .id(initialProduct.getId())
                 .category(category2)
-                .name(saveRequest.getName())
-                .sku(saveRequest.getSku())
-                .price(saveRequest.getPrice())
-                .quantity(saveRequest.getQuantity())
-                .measureUnit(saveRequest.getMeasureUnit())
-                .status(saveRequest.getStatus())
+                .name(saveRequest.name())
+                .sku(saveRequest.sku())
+                .price(saveRequest.price())
+                .quantity(saveRequest.quantity())
+                .measureUnit(saveRequest.measureUnit())
+                .status(saveRequest.status())
                 .isActive(saveRequest.isActive())
                 .build();
 
@@ -273,7 +273,7 @@ class ProductServiceTest {
         assertThrows(EntityNotFoundException.class,
                 () -> productService.save(saveRequest, category1),
                 "should be exception when got empty optional");
-        verify(productRepository).findById(saveRequest.getId());
+        verify(productRepository).findById(saveRequest.id());
         verifyNoMoreInteractions(productRepository);
     }
 
@@ -344,6 +344,7 @@ class ProductServiceTest {
 
         var toSave = initialProduct;
         toSave.setQuantity(newQuantity);
+        var id = initialProduct.getId();
 
 
 
@@ -351,7 +352,7 @@ class ProductServiceTest {
         when(productRepository.findById(initialProduct.getId())).thenReturn(Optional.empty());
         //expect
         assertThrows(EntityNotFoundException.class,
-                () -> productService.changeQuantity(initialProduct.getId(), newQuantity),
+                () -> productService.changeQuantity(id, newQuantity),
                 "should be not found exception when got empty optional");
         verify(productRepository).findById(initialProduct.getId());
         verifyNoMoreInteractions(productRepository);

@@ -3,25 +3,24 @@ package com.robsil.authorizationservice.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.netflix.discovery.EurekaClient;
 import com.robsil.authorizationservice.model.AuthenticationResponse;
 import com.robsil.authorizationservice.model.VerificationResponse;
 import com.robsil.authorizationservice.util.RSAHolder;
-import com.robsil.erommerce.userentityservice.data.domain.ERole;
+import com.robsil.erommerce.protoservice.util.util.IdUtil;
 import com.robsil.erommerce.userentityservice.data.domain.User;
-import com.robsil.proto.AuthenticationServiceGrpc;
-import com.robsil.proto.Token;
-import io.grpc.Status;
-import io.grpc.StatusRuntimeException;
+import com.robsil.proto.MerchantServiceGrpc;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
-import net.devh.boot.grpc.server.service.GrpcService;
+import net.devh.boot.grpc.client.inject.GrpcClient;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -33,32 +32,20 @@ import java.util.Map;
 @Service
 @Log4j2
 @RequiredArgsConstructor
-@GrpcService
-public class AuthenticationService extends AuthenticationServiceGrpc.AuthenticationServiceImplBase {
+public class AuthenticationService {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final AuthenticationManager authenticationManager;
     private final RSAHolder rsaHolder;
+    private final ApplicationContext applicationContext;
+    private final EurekaClient eurekaClient;
+
+    @GrpcClient("merchant-service")
+    private MerchantServiceGrpc.MerchantServiceBlockingStub merchantServiceBlockingStub;
 
     public static final String USERNAME_CLAIM_NAME = "username";
     public static final String ID_CLAIM_NAME = "id";
     public static final String AUTHORITIES_CLAIM_NAME = "authorities";
-
-    @Override
-    public void verifyToken(Token request, io.grpc.stub.StreamObserver<com.robsil.proto.VerificationResponse> responseObserver) {
-        try {
-            var result = verifyToken(request.getValue());
-            var response = com.robsil.proto.VerificationResponse.newBuilder()
-                    .setId(result.getId())
-                    .setUsername(result.getUsername())
-                    .addAllAuthorities(result.getAuthorities());
-
-            responseObserver.onNext(response.build());
-            responseObserver.onCompleted();
-        } catch (JWTVerificationException e) {
-            responseObserver.onError(new StatusRuntimeException(Status.UNAUTHENTICATED));
-        }
-    }
 
     public AuthenticationResponse authenticate(String username, String password) {
         Authentication authentication;
@@ -76,7 +63,13 @@ public class AuthenticationService extends AuthenticationServiceGrpc.Authenticat
                 .withExpiresAt(Instant.now().plus(7L, ChronoUnit.DAYS))
                 .withClaim(USERNAME_CLAIM_NAME, user.getEmail())
                 .withClaim(ID_CLAIM_NAME, user.getId())
-                .withClaim(AUTHORITIES_CLAIM_NAME, user.getRoles().stream().map(ERole::getValue).toList())
+                .withClaim(
+                        AUTHORITIES_CLAIM_NAME,
+                        user.getAuthorities()
+                                .stream()
+                                .map(GrantedAuthority::getAuthority)
+                                .toList()
+                )
                 .sign(Algorithm.RSA256(rsaHolder.getPublicKey(), rsaHolder.getPrivateKey()));
 
         return AuthenticationResponse
@@ -90,7 +83,8 @@ public class AuthenticationService extends AuthenticationServiceGrpc.Authenticat
     }
 
     @SneakyThrows
-    public VerificationResponse verifyToken(String token) {
+    public VerificationResponse verifyToken(String token, boolean checkIsMerchant) {
+
         var verifier = JWT
                 .require(Algorithm.RSA256(rsaHolder.getPublicKey(), rsaHolder.getPrivateKey()))
                 .withClaimPresence(USERNAME_CLAIM_NAME)
@@ -103,11 +97,21 @@ public class AuthenticationService extends AuthenticationServiceGrpc.Authenticat
         Map<String, Object> payload = objectMapper.readValue(Base64.getDecoder().decode(decodedJwt.getPayload()), new TypeReference<Map<String, Object>>() {
         });
 
-        return VerificationResponse
+        var id = (long) ((Integer) payload.get("id"));
+        var response = VerificationResponse
                 .builder()
-                .id((long) ((Integer) payload.get("id")))
+                .id(id)
                 .username((String) payload.get(USERNAME_CLAIM_NAME))
-                .authorities((List<String>) payload.get(AUTHORITIES_CLAIM_NAME))
+                .authorities((List<String>) payload.get(AUTHORITIES_CLAIM_NAME));
+
+        if (checkIsMerchant) {
+            var merchant = merchantServiceBlockingStub.findByUserId(IdUtil.of(id));
+            if (merchant != null) {
+                response.isMerchant(true);
+            }
+        }
+
+        return response
                 .build();
     }
 }

@@ -1,5 +1,6 @@
 package com.robsil.productservice.controller;
 
+import com.robsil.erommerce.jwtintegration.model.UserAuthenticationToken;
 import com.robsil.productservice.model.product.*;
 import com.robsil.productservice.service.ProductService;
 import com.robsil.productservice.service.dtomapper.ProductDtoMapper;
@@ -37,8 +38,8 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductDto> create(@RequestBody @Valid ProductCreateRequest req) {
-        return new ResponseEntity<>(productDtoMapper.apply(productFacadeService.create(req)), HttpStatus.CREATED);
+    public ResponseEntity<ProductDto> create(@RequestBody @Valid ProductCreateRequest req, UserAuthenticationToken user) {
+        return new ResponseEntity<>(productDtoMapper.apply(productFacadeService.create(req, user)), HttpStatus.CREATED);
     }
 
     @PutMapping
@@ -48,7 +49,7 @@ public class ProductController {
 
     @PutMapping("/quantity")
     public ResponseEntity<ProductDto> changeQuantity(@RequestBody @Valid ProductQuantityRequest req) {
-        return new ResponseEntity<>(productDtoMapper.apply(productService.changeQuantity(req.getProductId(), req.getQuantity())), HttpStatus.OK);
+        return new ResponseEntity<>(productDtoMapper.apply(productService.changeQuantity(req.productId(), req.quantity())), HttpStatus.OK);
     }
 
     @DeleteMapping("/{productId}")

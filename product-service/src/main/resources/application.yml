@@ -32,3 +32,8 @@ grpc:
       enable-keep-alive: true
       keep-alive-without-calls: true
       negotiation-type: plaintext
+    merchant-service:
+      address: "discovery:///merchant-service"
+      enable-keep-alive: true
+      keep-alive-without-calls: true
+      negotiation-type: plaintext

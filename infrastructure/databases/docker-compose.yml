@@ -70,3 +70,20 @@ services:
         tag: "{{.ImageName}}|{{.Name}}"
         max-size: 256m
 
+  merchant-service-postgres:
+    image: postgres:12.12
+    restart: unless-stopped
+    ports:
+      - "5006:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    volumes:
+      - "./postgres/merchant-service-data:/var/lib/postgresql/data"
+      - "./init-postgres.sql:/docker-entrypoint-initdb.d/init-postgres.sql"
+    logging:
+      driver: "json-file"
+      options:
+        tag: "{{.ImageName}}|{{.Name}}"
+        max-size: 256m
+

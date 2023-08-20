@@ -17,4 +17,5 @@ include 'jwt-integration-service'
 include 'mail-service'
 include 'mail-service-commons'
 include 'mail-service-starter'
+include 'merchant-service'
 

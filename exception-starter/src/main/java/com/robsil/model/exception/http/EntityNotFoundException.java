@@ -4,6 +4,8 @@ import org.springframework.http.HttpStatus;
 
 public class EntityNotFoundException extends HttpException {
 
+    public static final HttpStatus CODE = HttpStatus.NOT_FOUND;
+
     public EntityNotFoundException() {
         super(HttpStatus.NOT_FOUND.value());
     }

@@ -51,19 +51,13 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "is_enabled")
     private boolean isEnabled;
 
-    @Type(JsonBinaryType.class)
-    @Column(columnDefinition = "jsonb")
-    @Builder.Default
-//    @Convert(converter = RoleToJsonConverter.class)
-    private List<ERole> roles = new ArrayList<>();
-
-    public boolean isSuperAdmin() {
-        return this.roles.stream().anyMatch(role -> role.equals(ERole.SUPERADMIN));
-    }
-
-    public boolean isAdmin() {
-        return this.roles.stream().anyMatch(role -> role.equals(ERole.ADMIN) || role.equals(ERole.SUPERADMIN));
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
+    )
+    private List<Role> roles;
 
     @Override
     public boolean equals(Object o) {
@@ -80,7 +74,10 @@ public class User extends BaseEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles.stream().map(role -> new SimpleGrantedAuthority(role.toString())).toList();
+        return this.getRoles()
+                .stream()
+                .flatMap(role -> role.getAuthorities().stream().map(authority -> new SimpleGrantedAuthority(authority.toString())))
+                .collect(Collectors.toSet());
     }
 
     @Override
@@ -116,7 +113,7 @@ public class User extends BaseEntity implements UserDetails {
                 .setIsEnabled(this.isEnabled())
                 .addAllRoles(this.getRoles()
                         .stream()
-                        .map(role -> com.robsil.proto.ERole.valueOf(role.name()))
+                        .map(role -> com.robsil.proto.ERole.valueOf(role.getCode()))
                         .collect(Collectors.toList()))
                 .build();
     }
